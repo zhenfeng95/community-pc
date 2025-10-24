@@ -1,5 +1,6 @@
 <template>
   <div id="app" :style="{'overflow-y': isHide ? 'hidden': 'auto' }">
+    测试jenkines
     <imooc-header></imooc-header>
     <router-view></router-view>
     <imooc-footer></imooc-footer>
@@ -14,11 +15,11 @@ export default {
   name: 'app',
   components: {
     'imooc-header': Header,
-    'imooc-footer': Footer
+    'imooc-footer': Footer,
   },
   computed: {
-    ...mapState(['isHide'])
-  }
+    ...mapState(['isHide']),
+  },
 }
 </script>
 
