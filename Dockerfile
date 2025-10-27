@@ -10,9 +10,9 @@ WORKDIR /app
 # 拷贝所有源代码，在dockerignore文件中忽略node_modules
 COPY . .
 
-RUN npm install cnpm -g --no-progress --registry=https://registry.npmmirror.com
+# RUN npm install cnpm -g --no-progress --registry=https://registry.npmmirror.com
 
-RUN cnpm install --no-progress
+RUN npm install --no-progress
 
 RUN npm run build
 
