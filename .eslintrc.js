@@ -13,7 +13,6 @@ module.exports = {
     'no-useless-escape': 0,
     'no-mixed-spaces-and-tabs': 0,
     'no-unused-vars': 'off',
-    quotes: ['error', 'double'],
   },
   parserOptions: {
     parser: 'babel-eslint',
