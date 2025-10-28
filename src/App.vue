@@ -141,6 +141,7 @@ html {
 .link {
   color: #01aaed;
 }
+
 .success {
   color: #5fb878;
 }
