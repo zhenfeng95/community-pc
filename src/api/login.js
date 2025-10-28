@@ -9,10 +9,10 @@ const getCode = (sid) => {
   //  method: 'get',
   //  url: '/getCaptcha'
   // })
-  return axios.get('/public/getCaptcha', {
+  return axios.get('/v1/public/getCaptcha', {
     params: {
-      sid: sid
-    }
+      sid: sid,
+    },
   })
 }
 
@@ -21,8 +21,8 @@ const getCode = (sid) => {
  * @param {} option 用户信息（邮箱，验证码）
  */
 const forget = (option) => {
-  return axios.post('/login/forget', {
-    ...option
+  return axios.post('/v1/login/forget', {
+    ...option,
   })
 }
 
@@ -31,8 +31,8 @@ const forget = (option) => {
  * @param {*} loginInfo 用户登录信息
  */
 const login = (loginInfo) => {
-  return axios.post('/login/login', {
-    ...loginInfo
+  return axios.post('/v1/login/login', {
+    ...loginInfo,
   })
 }
 
@@ -41,8 +41,8 @@ const login = (loginInfo) => {
  * @param {*} regInfo 用户注册信息
  */
 const reg = (regInfo) => {
-  return axios.post('/login/reg', {
-    ...regInfo
+  return axios.post('/v1/login/reg', {
+    ...regInfo,
   })
 }
 
@@ -50,12 +50,6 @@ const reg = (regInfo) => {
  * 重置密码接口
  * @param {*} info 重置密码信息
  */
-const reset = (info) => axios.post('/login/reset', { ...info })
+const reset = (info) => axios.post('/v1/login/reset', { ...info })
 
-export {
-  getCode,
-  forget,
-  login,
-  reg,
-  reset
-}
+export { getCode, forget, login, reg, reset }

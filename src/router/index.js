@@ -30,13 +30,15 @@ router.beforeEach(async (to, from, next) => {
       store.commit('setToken', localStorage.getItem('token'))
     } else {
       // 使用await， 避免路由拦截先于请求响应成功
-      instance.post('/login/refresh', null, {
-        headers: {
-          'Authorization': 'Bearer ' + refreshToken
-        }
-      }).then(res => {
-        store.commit('setToken', res.data.token)
-      })
+      instance
+        .post('/v1/login/refresh', null, {
+          headers: {
+            Authorization: 'Bearer ' + refreshToken,
+          },
+        })
+        .then((res) => {
+          store.commit('setToken', res.data.token)
+        })
     }
     store.commit('setIsLogin', true)
     store.commit('setUserInfo', userInfo)
@@ -51,7 +53,7 @@ router.beforeEach(async (to, from, next) => {
     store.commit('setIsLogin', false)
   }
   // to and from are Route Object,next() must be called to resolve the hook
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
     const isLogin = store.state.isLogin
     // 需要用户登录的页面进行区别
     if (isLogin) {
