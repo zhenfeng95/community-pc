@@ -108,6 +108,7 @@ html {
 .text-center {
   text-align: center;
 }
+
 .text-left {
   text-align: left;
 }
