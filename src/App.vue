@@ -112,6 +112,7 @@ html {
 .text-left {
   text-align: left;
 }
+
 .text-right {
   text-align: right;
 }
