@@ -57,6 +57,7 @@ html {
     height: 50px;
   }
 }
+
 .gray {
   color: #999;
 }
