@@ -1,6 +1,10 @@
 name: Mirror to Gitee Repo
 
-on: [ push ]
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ['main']
+  workflow_dispatch:
 
 # Ensures that only one mirror task will run at a time.
 concurrency:
@@ -14,5 +18,5 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.GITEE_DEPLOY_KEY }}
         with:
-          source-repo: "git@github.com:zhenfeng95/community-pc.git"
-          destination-repo: "git@gitee.com:zhenfeng95/community-pc.git"
+          source-repo: 'git@github.com:zhenfeng95/community-pc.git'
+          destination-repo: 'git@gitee.com:zhenfeng95/community-pc.git'
