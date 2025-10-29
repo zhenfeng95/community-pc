@@ -35,6 +35,16 @@ jobs:
         # cache-dependency-path: "**/package-lock.json"
 
     - run: node --version
+
+    - name: rsync deployments
+      uses: burnett01/rsync-deployments@7.1.0
+      with:
+        switches: -avzr --delete
+        path: dist/
+        remote_path: /www/wwwroot/sync/dist/
+        remote_host: zzf.net.cn
+        remote_user: root
+        remote_key: ${{ secrets.DEPLOY_KEY }}
        
     # Runs a single command using the runners shell
     - name: Send greeting
