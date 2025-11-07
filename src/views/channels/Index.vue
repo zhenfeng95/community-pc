@@ -33,8 +33,8 @@ export default {
     'imooc-ads': Ads,
     'imooc-links': Links,
     'imooc-list': List,
-    'imooc-top': Top
-  }
+    'imooc-top': Top,
+  },
 }
 </script>
 

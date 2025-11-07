@@ -15,18 +15,18 @@
 import { getTips } from '@/api/content'
 export default {
   name: 'tips',
-  data () {
+  data() {
     return {
-      lists: []
+      lists: [],
     }
   },
-  mounted () {
+  mounted() {
     getTips().then((res) => {
-      if (res.code === 200) {
+      if (res.code === 0) {
         this.lists = res.data
       }
     })
-  }
+  },
 }
 </script>
 

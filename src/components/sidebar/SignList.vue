@@ -16,12 +16,7 @@
           <div class="layui-tab-content fly-signin-list">
             <ul class="layui-tab-item layui-show">
               <li class="sign-item" v-for="(item,index) in lists" :key="'sign' + index">
-                <img
-                  v-if="current===0"
-                  :src="item.pic ? item.pic : '/img/bear-200-200.jpg'"
-                  alt
-                  class="mr1"
-                />
+                <img v-if="current===0" :src="item.pic ? item.pic : '/img/bear-200-200.jpg'" alt class="mr1" />
                 <img v-else :src="item.uid ? item.uid.pic : '/img/bear-200-200.jpg'" class="mr1" />
                 <cite class="fly-link">{{item.name ? item.name : item.uid.name}}</cite>
                 <span class="fly-grey" v-if="current !== 0">签到于 {{item.created | hours}}</span>
@@ -45,41 +40,41 @@ export default {
   props: {
     isShow: {
       default: false,
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
-  data () {
+  data() {
     return {
       current: 0,
       lists: [],
       limit: 20,
-      page: 0
+      page: 0,
     }
   },
-  mounted () {
+  mounted() {
     this.getList()
   },
   methods: {
-    choose (val) {
+    choose(val) {
       this.current = val
       this.getList()
       // 请求后台拉取数据
     },
-    close () {
+    close() {
       this.$emit('closeModal')
     },
-    getList () {
+    getList() {
       getHotSignRecord({
         page: this.page,
         limit: this.limit,
-        index: this.current
+        index: this.current,
       }).then((res) => {
-        if (res.code === 200) {
+        if (res.code === 0) {
           this.lists = res.data
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -21,18 +21,18 @@
 import { getTop } from '@/api/content'
 export default {
   name: 'hotlist',
-  data () {
+  data() {
     return {
-      lists: []
+      lists: [],
     }
   },
-  mounted () {
+  mounted() {
     getTop().then((res) => {
-      if (res.code === 200) {
+      if (res.code === 0) {
         this.lists = res.data
       }
     })
-  }
+  },
 }
 </script>
 
