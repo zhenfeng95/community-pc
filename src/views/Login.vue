@@ -131,6 +131,7 @@ export default {
       })
         .then((res) => {
           if (res.code === 0) {
+            console.log(res.data)
             // 存储用户的登录名
             res.data.username = this.username
             this.$store.commit('setUserInfo', res.data)

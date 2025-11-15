@@ -2,12 +2,7 @@
   <div class="layui-container flex">
     <div class="layui-row font pb3">确定更新账号为：{{username}}吗？</div>
     <div class="layui-row">
-      <button
-        type="button"
-        class="layui-btn"
-        :class="{'layui-btn-disabled': isSend}"
-        @click="validate().then(submit)"
-      >确定更新</button>
+      <button type="button" class="layui-btn" :class="{'layui-btn-disabled': isSend}" @click="submit">确定更新</button>
       <router-link class="layui-btn layui-btn-primary" to="/">返回首页</router-link>
     </div>
   </div>
@@ -18,22 +13,22 @@ import { updateUsername } from '@/api/user'
 let obj = {}
 export default {
   name: 'confirm',
-  data () {
+  data() {
     return {
       username: '',
-      isSend: false
+      isSend: false,
     }
   },
-  mounted () {
+  mounted() {
     let queryStr = window.location.href.replace(/.*\?/, '')
-    obj = Object.fromEntries(queryStr.split('&').map(v => v.split('=')))
+    obj = Object.fromEntries(queryStr.split('&').map((v) => v.split('=')))
     this.username = decodeURIComponent(obj.username)
   },
   methods: {
-    submit () {
+    submit() {
       obj.username = this.username
       updateUsername(obj).then((res) => {
-        if (res.code === 200) {
+        if (res.code === 0) {
           this.isSend = true
           this.$alert(res.msg)
           setTimeout(() => {
@@ -41,8 +36,8 @@ export default {
           }, 1000)
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

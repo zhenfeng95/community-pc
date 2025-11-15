@@ -2,19 +2,10 @@
   <div class="layui-form layui-form-pane layui-tab-item layui-show">
     <validation-observer ref="observer" v-slot="{ validate }">
       <div class="layui-form-item">
-        <validation-provider
-          name="email"
-          rules="required|email"
-          v-slot="{ errors }"
-        >
+        <validation-provider name="email" rules="required|email" v-slot="{ errors }">
           <label for="L_email" class="layui-form-label">邮箱</label>
           <div class="layui-input-inline">
-            <input
-              type="text"
-              name="email"
-              class="layui-input"
-              v-model="username"
-            />
+            <input type="text" name="email" class="layui-input" v-model="username" />
           </div>
           <!-- <div class="layui-form-mid layui-word-aux">
             如果您在邮箱已激活的情况下，变更了邮箱，需
@@ -49,33 +40,13 @@
         <label for="L_city" class="layui-form-label">性别</label>
         <div class="layui-input-inline gray mt1 ml1">
           <label for="gender1" class="mr1">
-            <input
-              id="gender1"
-              type="radio"
-              name="sex"
-              v-model="gender"
-              value="0"
-              title="男"
-            />
-            <i
-              class="layui-icon layui-icon-circle"
-              :class="{ 'layui-icon-radio': gender === '0' }"
-            ></i>
+            <input id="gender1" type="radio" name="sex" v-model="gender" value="0" title="男" />
+            <i class="layui-icon layui-icon-circle" :class="{ 'layui-icon-radio': gender === '0' }"></i>
             男
           </label>
           <label for="gender2">
-            <input
-              id="gender2"
-              type="radio"
-              name="sex"
-              v-model="gender"
-              value="1"
-              title="女"
-            />
-            <i
-              class="layui-icon layui-icon-circle"
-              :class="{ 'layui-icon-radio': gender === '1' }"
-            ></i>
+            <input id="gender2" type="radio" name="sex" v-model="gender" value="1" title="女" />
+            <i class="layui-icon layui-icon-circle" :class="{ 'layui-icon-radio': gender === '1' }"></i>
             女
           </label>
         </div>
@@ -83,12 +54,7 @@
       <div class="layui-form-item layui-form-text">
         <label for="L_sign" class="layui-form-label">签名</label>
         <div class="layui-input-block">
-          <textarea
-            placeholder="随便写些什么刷下存在感"
-            v-model="regmark"
-            class="layui-textarea"
-            style="height: 80px"
-          ></textarea>
+          <textarea placeholder="随便写些什么刷下存在感" v-model="regmark" class="layui-textarea" style="height: 80px"></textarea>
         </div>
       </div>
       <div class="layui-form-item">
@@ -105,19 +71,20 @@ export default {
   name: 'myinfo',
   components: {
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
   },
-  data () {
+  data() {
     return {
       username: '',
       name: '',
       location: '',
       gender: '',
-      regmark: ''
+      regmark: '',
     }
   },
-  mounted () {
-    let { username, name, location, gender, regmark } = this.$store.state.userInfo
+  mounted() {
+    let { username, name, location, gender, regmark } =
+      this.$store.state.userInfo
     this.username = username || ''
     this.name = name || ''
     this.location = location || ''
@@ -125,7 +92,7 @@ export default {
     this.regmark = regmark || ''
   },
   methods: {
-    async submit () {
+    async submit() {
       const isValid = await this.$refs.observer.validate()
       if (!isValid) {
         // ABORT!!
@@ -136,9 +103,9 @@ export default {
         name: this.name,
         location: this.location,
         gender: this.gender,
-        regmark: this.regmark
+        regmark: this.regmark,
       }).then((res) => {
-        if (res.code === 200) {
+        if (res.code === 0) {
           this.$store.commit('setUserInfo', {
             ...this.$store.state.userInfo,
             ...{
@@ -146,14 +113,14 @@ export default {
               name: this.name,
               location: this.location,
               gender: this.gender,
-              regmark: this.regmark
-            }
+              regmark: this.regmark,
+            },
           })
           this.$alert('更新成功！')
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

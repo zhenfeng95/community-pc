@@ -5,7 +5,7 @@ export default {
     dev: 'http://localhost:3002',
     pro: '',
   },
-  publicPath: [/^\/public/, /^\/login/],
+  publicPath: [/^\/v1\/public/, /^\/v1\/login/],
   wsconfig: {
     url: isDev ? '127.0.0.1' : 'zzf.net.cn',
     port: isDev ? '3001' : 22001,

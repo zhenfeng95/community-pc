@@ -7,13 +7,7 @@
         <label for="pic" class="layui-btn upload-img">
           <i class="layui-icon">&#xe67c;</i>上传头像
         </label>
-        <input
-          id="pic"
-          type="file"
-          name="file"
-          accept="image/png, image/gif, image/jpg"
-          @change="upload"
-        />
+        <input id="pic" type="file" name="file" accept="image/png, image/gif, image/jpg" @change="upload" />
         <img :src="pic" />
         <span class="loading"></span>
       </div>
@@ -26,18 +20,18 @@ import { uploadImg } from '@/api/content'
 import { updateUserInfo } from '@/api/user'
 export default {
   name: 'pic-upload',
-  data () {
+  data() {
     return {
       // 判断 userInfo & pic 是否存在
       pic:
         this.$store.state.userInfo && this.$store.state.userInfo.pic
           ? this.$store.state.userInfo.pic
           : '/img/bear-200-200.jpg',
-      formData: ''
+      formData: '',
     }
   },
   methods: {
-    upload (e) {
+    upload(e) {
       let file = e.target.files
       let formData = new FormData()
       if (file.length > 0) {
@@ -46,11 +40,11 @@ export default {
       }
       // 上传图片的之后 -> uploadImg
       uploadImg(formData).then((res) => {
-        if (res.code === 200) {
+        if (res.code === 0) {
           this.pic = res.data
           // 更新用户基本资料 -> updateUserInfo
           updateUserInfo({ pic: this.pic }).then((res) => {
-            if (res.code === 200) {
+            if (res.code === 0) {
               // 修改全局的 store 内的用户基础信息
               let user = this.$store.state.userInfo
               this.$set(this.$store.state.userInfo, 'pic', this.pic)
@@ -61,8 +55,8 @@ export default {
           document.getElementById('pic').value = ''
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>
 

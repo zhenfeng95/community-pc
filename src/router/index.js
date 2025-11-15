@@ -23,35 +23,35 @@ router.beforeEach(async (to, from, next) => {
   // method 2
   const payload = jwt.decode(token)
   const refPayload = jwt.decode(refreshToken)
-  if (refPayload && moment().isBefore(moment(refPayload.exp * 1000))) {
-    if (token && moment().isBefore(moment(payload.exp * 1000))) {
-      // 刷新页面的时候保存数据
-      // 每次进入页面之前，就将localStorage的内容储存到vuex中，vuex的持久化
-      store.commit('setToken', localStorage.getItem('token'))
-    } else {
-      // 使用await， 避免路由拦截先于请求响应成功
-      instance
-        .post('/v1/login/refresh', null, {
-          headers: {
-            Authorization: 'Bearer ' + refreshToken,
-          },
-        })
-        .then((res) => {
-          store.commit('setToken', res.data.token)
-        })
-    }
-    store.commit('setIsLogin', true)
-    store.commit('setUserInfo', userInfo)
-    if (!store.state.ws) {
-      store.commit('initWebSocket', {})
-    }
-  } else {
-    // 用户要重新登录
-    localStorage.clear()
-    store.commit('setToken', '')
-    store.commit('setUserInfo', {})
-    store.commit('setIsLogin', false)
-  }
+  //   if (refPayload && moment().isBefore(moment(refPayload.exp * 1000))) {
+  //     if (token && moment().isBefore(moment(payload.exp * 1000))) {
+  //       // 刷新页面的时候保存数据
+  //       // 每次进入页面之前，就将localStorage的内容储存到vuex中，vuex的持久化
+  //       store.commit('setToken', localStorage.getItem('token'))
+  //     } else {
+  //       // 使用await， 避免路由拦截先于请求响应成功
+  //       instance
+  //         .post('/v1/login/refresh', null, {
+  //           headers: {
+  //             Authorization: 'Bearer ' + refreshToken,
+  //           },
+  //         })
+  //         .then((res) => {
+  //           store.commit('setToken', res.data.token)
+  //         })
+  //     }
+  //     store.commit('setIsLogin', true)
+  //     store.commit('setUserInfo', userInfo)
+  //     if (!store.state.ws) {
+  //       store.commit('initWebSocket', {})
+  //     }
+  //   } else {
+  //     // 用户要重新登录
+  //     localStorage.clear()
+  //     store.commit('setToken', '')
+  //     store.commit('setUserInfo', {})
+  //     store.commit('setIsLogin', false)
+  //   }
   // to and from are Route Object,next() must be called to resolve the hook
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     const isLogin = store.state.isLogin

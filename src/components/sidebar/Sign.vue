@@ -45,19 +45,19 @@ export default {
   name: 'sign',
   components: {
     SignInfo,
-    SignList
+    SignList,
   },
-  data () {
+  data() {
     return {
       isShow: false,
       showList: false,
       current: 0,
       isSign: false,
       msg: '',
-      ctrl: ''
+      ctrl: '',
     }
   },
-  mounted () {
+  mounted() {
     // 判断用户的上一次签到时间与签到状态
     // 如果用户上一次签到时间与当天的签到日期相差1天，允许用户进行签到
     const isSign = this.$store.state.userInfo.isSign
@@ -65,35 +65,39 @@ export default {
     const nowDate = moment().format('YYYY-MM-DD')
     const lastDate = moment(lastSign).format('YYYY-MM-DD')
     const diff = moment(nowDate).diff(moment(lastDate), 'day')
+    console.log(moment(nowDate), moment(lastSign))
+    console.log(diff)
     if (diff > 0 && isSign) {
       this.isSign = false
     } else {
       this.isSign = isSign
-      if (diff === 0 && isSign) {
-        this.nextSign()
-      } else {
-        this.msg = '今日已签到'
-      }
+      this.msg = '今日已签到'
+      //   if (diff === 0 && isSign) {
+      //     this.nextSign()
+      //   } else {
+      //     this.msg = '今日已签到'
+      //   }
     }
+    console.log(this.isSign)
   },
   watch: {
-    userInfo (newval, oldval) {
+    userInfo(newval, oldval) {
       if (newval.isSign === true) {
         this.nextSign()
         this.isSign = true
       } else {
         this.isSign = false
       }
-    }
+    },
   },
   computed: {
-    userInfo () {
+    userInfo() {
       return this.$store.state.userInfo
     },
-    isLogin () {
+    isLogin() {
       return this.$store.state.isLogin
     },
-    favs () {
+    favs() {
       let count = parseInt(this.count)
       let result = 0
       if (count < 5) {
@@ -111,7 +115,7 @@ export default {
       }
       return result
     },
-    count () {
+    count() {
       if (this.$store.state.userInfo !== {}) {
         if (typeof this.$store.state.userInfo.count !== 'undefined') {
           return this.$store.state.userInfo.count
@@ -121,10 +125,10 @@ export default {
       } else {
         return 0
       }
-    }
+    },
   },
   methods: {
-    nextSign () {
+    nextSign() {
       clearInterval(this.ctrl)
       const newDate = moment().add(1, 'day').format('YYYY-MM-DD')
       let seconds = moment(newDate + ' 00:00:00').diff(moment(), 'second')
@@ -132,18 +136,22 @@ export default {
       // const newDate = moment().add(10, 'second')
       // let seconds = moment(newDate).diff(moment(), 'second')
       let hour = Math.floor(seconds / 3600)
-      let min = Math.floor(seconds % 3600 / 60)
+      let min = Math.floor((seconds % 3600) / 60)
       let second = seconds % 60
-      this.msg = `签到倒计时 ${hour}:${min < 10 ? '0' + min : min}:${second < 10 ? '0' + second : second}`
+      this.msg = `签到倒计时 ${hour}:${min < 10 ? '0' + min : min}:${
+        second < 10 ? '0' + second : second
+      }`
       // if (seconds < 600) {
       this.ctrl = setInterval(() => {
         seconds = moment(newDate + ' 00:00:00').diff(moment(), 'second')
         // 测试用
         // seconds = moment(newDate).diff(moment(), 'second')
         hour = Math.floor(seconds / 3600)
-        min = Math.floor(seconds % 3600 / 60)
+        min = Math.floor((seconds % 3600) / 60)
         second = seconds % 60
-        this.msg = `签到倒计时 ${hour}:${min < 10 ? '0' + min : min}:${second < 10 ? '0' + second : second}`
+        this.msg = `签到倒计时 ${hour}:${min < 10 ? '0' + min : min}:${
+          second < 10 ? '0' + second : second
+        }`
         if (seconds <= 0) {
           clearInterval(this.ctrl)
           this.isSign = false
@@ -156,27 +164,27 @@ export default {
       //   this.msg = '今日已签到'
       // }
     },
-    showInfo () {
+    showInfo() {
       this.isShow = true
     },
-    showTop () {
+    showTop() {
       this.showList = true
     },
-    close () {
+    close() {
       this.isShow = false
       this.showList = false
     },
-    choose (val) {
+    choose(val) {
       this.current = val
     },
-    sign () {
+    sign() {
       if (!this.isLogin) {
         this.$pop('shake', '请先登录')
         return
       }
       userSign().then((res) => {
         let user = this.$store.state.userInfo
-        if (res.code === 200) {
+        if (res.code === 0) {
           user.favs = res.favs
           user.count = res.count
           this.$pop('', '签到成功！')
@@ -190,8 +198,8 @@ export default {
         this.$store.commit('setUserInfo', user)
       })
       this.nextSign()
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="scss">
