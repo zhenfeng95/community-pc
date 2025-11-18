@@ -7,7 +7,13 @@
         <label for="pic" class="layui-btn upload-img">
           <i class="layui-icon">&#xe67c;</i>上传头像
         </label>
-        <input id="pic" type="file" name="file" accept="image/png, image/gif, image/jpg" @change="upload" />
+        <input
+          id="pic"
+          type="file"
+          name="file"
+          accept="image/png, image/gif, image/jpg"
+          @change="upload"
+        />
         <img :src="pic" />
         <span class="loading"></span>
       </div>
@@ -16,6 +22,7 @@
 </template>
 
 <script>
+import config from '@/config'
 import { uploadImg } from '@/api/content'
 import { updateUserInfo } from '@/api/user'
 export default {
@@ -41,7 +48,11 @@ export default {
       // 上传图片的之后 -> uploadImg
       uploadImg(formData).then((res) => {
         if (res.code === 0) {
-          this.pic = res.data
+          const baseUrl =
+            process.env.NODE_ENV === 'production'
+              ? config.baseUrl.pro
+              : config.baseUrl.dev
+          this.pic = baseUrl + res.data
           // 更新用户基本资料 -> updateUserInfo
           updateUserInfo({ pic: this.pic }).then((res) => {
             if (res.code === 0) {

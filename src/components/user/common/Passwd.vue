@@ -4,15 +4,23 @@
     <form>
       <validation-observer ref="observer" v-slot="{ validate }">
         <div class="layui-form-item">
-          <validation-provider name="oldpassword" rules="required|min:6|max:16" v-slot="{errors}">
+          <validation-provider
+            name="oldpassword"
+            rules="required|min:6|max:16"
+            v-slot="{ errors }"
+          >
             <div class="layui-row">
               <label for="L_nowpass" class="layui-form-label">当前密码</label>
               <div class="layui-input-inline">
-                <input type="password" v-model="oldpassword" class="layui-input" />
+                <input
+                  type="password"
+                  v-model="oldpassword"
+                  class="layui-input"
+                />
               </div>
             </div>
             <div class="layui-row">
-              <span style="color: #c00;">{{errors[0]}}</span>
+              <span style="color: #c00">{{ errors[0] }}</span>
             </div>
           </validation-provider>
         </div>
@@ -20,7 +28,7 @@
           <validation-provider
             name="password"
             rules="required|min:6|max:16|confirmed:confirmation"
-            v-slot="{errors}"
+            v-slot="{ errors }"
           >
             <div class="layui-row">
               <label for="L_pass" class="layui-form-label">新密码</label>
@@ -30,7 +38,7 @@
               <div class="layui-form-mid layui-word-aux">6到16个字符</div>
             </div>
             <div class="layui-row">
-              <span style="color: #c00;">{{errors[0]}}</span>
+              <span style="color: #c00">{{ errors[0] }}</span>
             </div>
           </validation-provider>
         </div>
@@ -39,16 +47,26 @@
             <div class="layui-row">
               <label for="L_repass" class="layui-form-label">确认密码</label>
               <div class="layui-input-inline">
-                <input type="password" v-model="repassword" class="layui-input" />
+                <input
+                  type="password"
+                  v-model="repassword"
+                  class="layui-input"
+                />
               </div>
             </div>
             <div class="layui-row">
-              <span style="color: #c00;">{{errors[0]}}</span>
+              <span style="color: #c00">{{ errors[0] }}</span>
             </div>
           </validation-provider>
         </div>
         <div class="layui-form-item">
-          <button type="button" class="layui-btn" @click="validate().then(submit)">确认修改</button>
+          <button
+            type="button"
+            class="layui-btn"
+            @click="validate().then(submit)"
+          >
+            确认修改
+          </button>
         </div>
       </validation-observer>
     </form>
@@ -62,17 +80,17 @@ export default {
   name: 'password',
   components: {
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
   },
-  data () {
+  data() {
     return {
       oldpassword: '',
       password: '',
-      repassword: ''
+      repassword: '',
     }
   },
   methods: {
-    async submit () {
+    async submit() {
       const isValid = await this.$refs.observer.validate()
       if (!isValid) {
         // ABORT!!
@@ -84,9 +102,9 @@ export default {
       }
       changePasswd({
         oldpwd: this.oldpassword,
-        newpwd: this.password
+        newpwd: this.password,
       }).then((res) => {
-        if (res.code === 200) {
+        if (res.code === 0) {
           this.$alert('密码更新成功！')
           this.oldpassword = ''
           this.password = ''
@@ -96,10 +114,9 @@ export default {
           })
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
