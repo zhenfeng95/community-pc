@@ -93,7 +93,6 @@ export default {
     async submit() {
       const isValid = await this.$refs.observer.validate()
       if (!isValid) {
-        // ABORT!!
         return
       }
       if (this.oldpassword === this.password) {
