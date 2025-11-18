@@ -74,6 +74,7 @@ export default {
         formData.append('file', file[0])
         this.formData = formData
       }
+
       // 上传图片
       uploadImg(this.formData).then((res) => {
         if (res.code === 0) {
