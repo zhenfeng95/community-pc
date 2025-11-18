@@ -3,7 +3,7 @@ const isDev = process.env.NODE_ENV === 'development'
 export default {
   baseUrl: {
     dev: 'http://localhost:3002',
-    pro: 'https://zzf.net.cn:11005',
+    pro: '',
   },
   publicPath: [/^\/v1\/public/, /^\/v1\/login/],
   wsconfig: {
