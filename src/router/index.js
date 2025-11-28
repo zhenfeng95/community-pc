@@ -21,7 +21,14 @@ router.beforeEach(async (to, from, next) => {
   // method 1
   // const payload = jwt.decode(token)
   // method 2
+
   const payload = jwt.decode(token)
+  store.commit('setToken', localStorage.getItem('token'))
+  store.commit('setIsLogin', true)
+  store.commit('setUserInfo', userInfo)
+  if (!store.state.ws) {
+    store.commit('initWebSocket', {})
+  }
   const refPayload = jwt.decode(refreshToken)
   //   if (refPayload && moment().isBefore(moment(refPayload.exp * 1000))) {
   //     if (token && moment().isBefore(moment(payload.exp * 1000))) {

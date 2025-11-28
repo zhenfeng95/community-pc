@@ -37,24 +37,38 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="text-center" v-for="(item,index) in list" :key="'mypost' + index">
+          <tr
+            class="text-center"
+            v-for="(item, index) in list"
+            :key="'mypost' + index"
+          >
             <td class="text-left">
               <router-link
                 class="link"
-                :to="{name: 'detail', params: {tid: item._id}}"
-              >{{item.title}}</router-link>
+                :to="{ name: 'detail', params: { tid: item._id } }"
+                >{{ item.title }}</router-link
+              >
             </td>
-            <td>{{item.status === '0' ? '打开': '关闭'}}</td>
-            <td :class="{'success': item.isEnd !=='0'}">{{item.isEnd === '0'? '未结': '已结贴'}}</td>
-            <td>{{item.created | moment}}</td>
-            <td>{{item.reads}}阅/{{item.answer}}答</td>
+            <td>{{ item.status === '0' ? '打开' : '关闭' }}</td>
+            <td :class="{ success: item.isEnd !== '0' }">
+              {{ item.isEnd === '0' ? '未结' : '已结贴' }}
+            </td>
+            <td>{{ item.created | moment }}</td>
+            <td>{{ item.reads }}阅/{{ item.answer }}答</td>
             <td>
               <div
                 class="layui-btn layui-btn-xs"
-                :class="{'layui-btn-disabled': item.isEnd === '1'}"
+                :class="{ 'layui-btn-disabled': item.isEnd === '1' }"
                 @click="editPost(item)"
-              >编辑</div>
-              <div class="layui-btn layui-btn-xs layui-btn-danger" @click="deletePost(item)">删除</div>
+              >
+                编辑
+              </div>
+              <div
+                class="layui-btn layui-btn-xs layui-btn-danger"
+                @click="deletePost(item)"
+              >
+                删除
+              </div>
             </td>
           </tr>
         </tbody>
@@ -78,67 +92,69 @@ import Pagination from '@/components/modules/pagination/Index'
 export default {
   name: 'my-post',
   components: {
-    'imooc-page': Pagination
+    'imooc-page': Pagination,
   },
-  data () {
+  data() {
     return {
       list: [],
       total: 0,
       current: 0,
       page: 0,
-      limit: 10
+      limit: 10,
     }
   },
-  mounted () {
+  mounted() {
     this.getPostList()
   },
   methods: {
-    getPostList () {
+    getPostList() {
       getPostListByUid({
         page: this.current,
-        limit: this.limit
+        limit: this.limit,
       }).then((res) => {
-        if (res.code === 200) {
+        if (res.code === 0) {
           this.list = res.data
           this.total = res.total
         }
       })
     },
-    deletePost (item) {
-      this.$confirm('确定删除吗?', () => {
-        if (item.isEnd !== '0') {
-          this.$pop('shake', '帖子已结贴，无法删除！')
-          return
-        }
-        deletePostByUid({
-          tid: item._id
-        }).then((res) => {
-          if (res.code === 200) {
-            this.$pop('', '删除成功！')
-            this.list.splice(this.list.indexOf(item), 1)
-          } else {
-            this.$pop('shake', res.msg)
+    deletePost(item) {
+      this.$confirm(
+        '确定删除吗?',
+        () => {
+          if (item.isEnd !== '0') {
+            this.$pop('shake', '帖子已结贴，无法删除！')
+            return
           }
-        })
-      }, () => {
-
-      })
+          deletePostByUid({
+            tid: item._id,
+          }).then((res) => {
+            if (res.code === 0) {
+              this.$pop('', '删除成功！')
+              this.list.splice(this.list.indexOf(item), 1)
+            } else {
+              this.$pop('shake', res.msg)
+            }
+          })
+        },
+        () => {}
+      )
     },
-    handleChange (val) {
+    handleChange(val) {
       this.current = val
       this.getPostList()
     },
-    editPost (item) {
+    editPost(item) {
       if (item.isEnd === '1') {
         this.$pop('shake', '帖子已经结贴，无法编辑')
       } else {
         this.$router.push({
           name: 'edit',
-          params: { tid: item._id, page: item }
+          params: { tid: item._id, page: item },
         })
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

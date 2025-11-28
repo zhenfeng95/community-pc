@@ -1,13 +1,17 @@
 <template>
-  <div class="layui-container fly-marginTop" :class="{'d-hide': isHide}">
-    <div class="fly-panel" pad20 style="padding-top: 5px;">
+  <div class="layui-container fly-marginTop" :class="{ 'd-hide': isHide }">
+    <div class="fly-panel" pad20 style="padding-top: 5px">
       <!--<div class="fly-none">没有权限</div>-->
       <div class="layui-form layui-form-pane">
         <div class="layui-tab layui-tab-brief" lay-filter="user">
           <ul class="layui-tab-title">
             <li class="layui-this">编辑帖子</li>
           </ul>
-          <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0;">
+          <div
+            class="layui-form layui-tab-content"
+            id="LAY_ucm"
+            style="padding: 20px 0"
+          >
             <div class="layui-tab-item layui-show">
               <form>
                 <validation-observer ref="observer" v-slot="{ validate }">
@@ -33,9 +37,15 @@
                     </div>
                     <div class="layui-col-md9">
                       <div class="layui-row">
-                        <label for="L_title" class="layui-form-label">标题</label>
+                        <label for="L_title" class="layui-form-label"
+                          >标题</label
+                        >
                         <div class="layui-input-block">
-                          <input type="text" class="layui-input" v-model="title" />
+                          <input
+                            type="text"
+                            class="layui-input"
+                            v-model="title"
+                          />
                           <!-- <input type="hidden" name="id" value="{{d.edit.id}}"> -->
                         </div>
                       </div>
@@ -45,7 +55,7 @@
                   <div class="layui-form-item">
                     <div class="layui-inline">
                       <label class="layui-form-label">悬赏飞吻</label>
-                      <div class="layui-input-inline" style="width: 190px;">
+                      <div class="layui-input-inline" style="width: 190px">
                         <div class="layui-unselect layui-form-select">
                           <div class="layui-select-title">
                             <input
@@ -59,7 +69,9 @@
                           </div>
                         </div>
                       </div>
-                      <div class="layui-form-mid layui-word-aux">发表后无法更改飞吻</div>
+                      <div class="layui-form-mid layui-word-aux">
+                        发表后无法更改飞吻
+                      </div>
                     </div>
                   </div>
                   <div class="layui-form-item">
@@ -67,10 +79,12 @@
                       name="code"
                       ref="codefield"
                       rules="required|length:4"
-                      v-slot="{errors}"
+                      v-slot="{ errors }"
                     >
                       <div class="layui-row">
-                        <label for="L_vercode" class="layui-form-label">验证码</label>
+                        <label for="L_vercode" class="layui-form-label"
+                          >验证码</label
+                        >
                         <div class="layui-input-inline">
                           <input
                             type="text"
@@ -82,16 +96,27 @@
                           />
                         </div>
                         <div class>
-                          <span class="svg" style="color: #c00;" @click="_getCode()" v-html="svg"></span>
+                          <span
+                            class="svg"
+                            style="color: #c00"
+                            @click="_getCode()"
+                            v-html="svg"
+                          ></span>
                         </div>
                       </div>
                       <div class="layui-form-mid">
-                        <span style="color: #c00;">{{errors[0]}}</span>
+                        <span style="color: #c00">{{ errors[0] }}</span>
                       </div>
                     </validation-provider>
                   </div>
                   <div class="layui-form-item">
-                    <button type="button" class="layui-btn" @click="validate().then(submit)">立即发布</button>
+                    <button
+                      type="button"
+                      class="layui-btn"
+                      @click="validate().then(submit)"
+                    >
+                      立即发布
+                    </button>
                   </div>
                 </validation-observer>
               </form>
@@ -112,83 +137,89 @@ export default {
   props: ['tid', 'page'],
   mixins: [CodeMix],
   components: {
-    Editor
+    Editor,
   },
-  data () {
+  data() {
     return {
       cataIndex: 0,
       favIndex: 0,
       catalogs: [
         {
           text: '请选择',
-          value: ''
+          value: '',
         },
         {
           text: '提问',
-          value: 'ask'
+          value: 'ask',
         },
         {
           text: '分享',
-          value: 'share'
+          value: 'share',
         },
         {
           text: '讨论',
-          value: 'discuss'
+          value: 'discuss',
         },
         {
           text: '建议',
-          value: 'advise'
-        }
+          value: 'advise',
+        },
       ],
       favList: [20, 30, 50, 60, 80],
       content: '',
-      title: ''
+      title: '',
     }
   },
-  mounted () {
+  mounted() {
     if (this.page) {
       this.content = this.page.content
       this.title = this.page.title
       this.favIndex = this.favList.indexOf(parseInt(this.page.fav))
-      this.cataIndex = this.catalogs.indexOf(this.catalogs.filter((item) => item.value === this.page.catalog)[0])
+      this.cataIndex = this.catalogs.indexOf(
+        this.catalogs.filter((item) => item.value === this.page.catalog)[0]
+      )
       // 缓存edit内容
       localStorage.setItem('editData', JSON.stringify(this.page))
     } else {
       // 页面上无page内容，可能是用户进行了刷新，则取本地缓存的内容
       const saveData = localStorage.getItem('editData')
       if (saveData && saveData !== '') {
-        this.$confirm('是否加载未编辑完的内容？', () => {
-          const obj = JSON.parse(saveData)
-          this.content = obj.content
-          this.title = obj.title
-          this.cataIndex = obj.cataIndex
-          this.favIndex = obj.favIndex
-        }, () => {
-          localStorage.setItem('editData', '')
-        })
+        this.$confirm(
+          '是否加载未编辑完的内容？',
+          () => {
+            const obj = JSON.parse(saveData)
+            this.content = obj.content
+            this.title = obj.title
+            this.cataIndex = obj.cataIndex
+            this.favIndex = obj.favIndex
+          },
+          () => {
+            localStorage.setItem('editData', '')
+          }
+        )
       }
     }
   },
   methods: {
-    chooseCatalog (item, index) {
+    chooseCatalog(item, index) {
       this.cataIndex = index
     },
-    chooseFav (item, index) {
+    chooseFav(item, index) {
       this.favIndex = index
     },
-    changeSelect () {
+    changeSelect() {
       this.isSelect = !this.isSelect
     },
-    changeFav () {
+    changeFav() {
       this.isSelect_fav = !this.isSelect_fav
     },
-    add (val) {
+    add(val) {
       this.content = val
       const saveData = {
         title: this.title,
         cataIndex: this.cataIndex,
         content: this.content,
-        favIndex: this.favIndex
+        favIndex: this.favIndex,
       }
       if (this.title.trim() !== '' && this.content.trim() !== '') {
         const editData = localStorage.getItem('editData')
@@ -199,7 +230,7 @@ export default {
         localStorage.setItem('editData', JSON.stringify(newObj))
       }
     },
-    async submit () {
+    async submit() {
       const isValid = await this.$refs.observer.validate()
       if (!isValid) {
         // ABORT!!
@@ -216,9 +247,9 @@ export default {
         title: this.title,
         content: this.content,
         code: this.code,
-        sid: this.$store.state.sid
+        sid: this.$store.state.sid,
       }).then((res) => {
-        if (res.code === 200) {
+        if (res.code === 0) {
           // 清空已经发布的内容
           localStorage.setItem('editData', '')
           this.$pop('', '更新成功!')
@@ -229,15 +260,14 @@ export default {
           this.$alert(res.msg)
         }
       })
-    }
+    },
   },
   computed: {
-    isHide () {
+    isHide() {
       return this.$store.state.isHide
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
