@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :style="{'overflow-y': isHide ? 'hidden': 'auto' }">
+  <div id="app" :style="{ 'overflow-y': isHide ? 'hidden' : 'auto' }">
     <imooc-header></imooc-header>
     <router-view></router-view>
     <imooc-footer></imooc-footer>
@@ -18,6 +18,13 @@ export default {
   },
   computed: {
     ...mapState(['isHide']),
+  },
+  mounted() {
+    const socket = new WebSocket('wss://tech.zzf.net.cn/websocket')
+
+    socket.onopen = () => console.log('✅ 连接成功')
+    socket.onerror = (e) => console.error('❌ 连接失败:', e)
+    socket.onclose = (e) => console.log('🔌 连接关闭:', e.code, e.reason)
   },
 }
 </script>
