@@ -199,10 +199,10 @@ export default {
 <style lang="scss" scoped>
 .fly-logo {
   left: -15px;
-  top: -15px;
+  top: 7px;
   margin-left: 15px;
   img {
-    width: 90px;
+    width: 50px;
   }
 }
 .layui-layer-tips {
